@@ -8,8 +8,12 @@ class FormProvider with ChangeNotifier {
   final FormRepository formRepository;
   FormFieldModel? formFieldModel;
   Map<String, dynamic> formData = {};
-  GlobalKey<FormState> textFieldKey=GlobalKey();
-  GlobalKey<FormState> dropDowmKey=GlobalKey();
+  GlobalKey<FormState> dropdownKey=GlobalKey<FormState>();
+
+  // Error state variables
+  bool checkboxValidation = false;
+  bool cleaningFrequencyError = false;
+
   // bool isLoading = false;
 
   FormProvider({required this.formRepository});
@@ -37,23 +41,25 @@ class FormProvider with ChangeNotifier {
   }
 
   bool validateForm() {
-    // Check only the required fields
-    final requiredFields = ["House type", "Cleaning Frequency"];
-    var i  =1;
-    for (var field in formData.keys) {
-      if(i==10){
-        break ;
+    for (var attribute in formFieldModel!.jsonResponse.attributes) {
+      if (attribute.type == 'checkbox' && formData[attribute.id] == null) {
+        checkboxValidation=true;
+        notifyListeners();
+        return false;
       }
-      final attribute = formFieldModel!.jsonResponse.attributes[i];
-     //  LoggerUtil.instance.printLog(msg: attribute.title);
-     LoggerUtil.instance.printLog(msg: formData[0]);
-     //  if (formData.keys) {
-     //    return false; // If any required field is empty, validation fails
-     //  }
-      i++;
-    }
+      if ((attribute.type == 'radio' || attribute.type == 'dropdown') &&
+          (formData[attribute.id] == null || formData[attribute.id].isEmpty)) {
+        return false;
+      }
 
-    return true; // All required fields are filled
+      if (attribute.type == 'textfield' &&
+          (formData[attribute.id] == null || formData[attribute.id].trim().isEmpty)) {
+        return false;
+      }
+
+
+    }
+    return true;
   }
 
 }

@@ -7,7 +7,7 @@ class AppRoutes {
   static AppRoutes instance = AppRoutes();
 
   Map<String, Widget Function(BuildContext)> routeList = {
-    FormScreen.routeName: (context) => FormScreen(),
+    FormScreen.routeName: (context) => const FormScreen(),
     SummaryScreen.routeName: (context) => SummaryScreen(),
   };
 }

@@ -5,7 +5,10 @@ import 'package:provider/provider.dart';
 import '../providers/form_provider.dart';
 
 class SummaryScreen extends StatelessWidget {
-  static const String routeName="/summary";
+  static const String routeName = "/summary";
+
+  const SummaryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final formProvider = Provider.of<FormProvider>(context);
@@ -13,7 +16,7 @@ class SummaryScreen extends StatelessWidget {
     // Ensure formFieldModel is loaded before displaying data
     if (formProvider.formFieldModel == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text("Summary")),
+        appBar: AppBar(title: const Text("Summary"),centerTitle: true,),
         body: const Center(child: Text("No data available")),
       );
     }
@@ -24,38 +27,67 @@ class SummaryScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: formProvider.formFieldModel!.jsonResponse.attributes.length,
-          itemBuilder: (context, index) {
-            final attribute = formProvider.formFieldModel!.jsonResponse.attributes[index];
-            final selectedValue = formProvider.formData[attribute.id];
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Selected Input",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                Text("${formProvider.formData.length} Items",style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+              ],
+            ),
+            Expanded(
+              child: Card(
+                child: Column(
+                  children: List.generate(
+                      formProvider.formFieldModel!.jsonResponse.attributes.length,
+                      (index) {
+                        final attribute =
+                        formProvider.formFieldModel!.jsonResponse.attributes[index];
+                        final selectedValue = formProvider.formData[attribute.id];
 
-            // Only show fields with selected values
-            if (selectedValue == null) {
-              return const SizedBox.shrink();
-            }
-
-            return Card(
-              color: Colors.grey[50],
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                        // Only show fields with selected values
+                        if (selectedValue == null) {
+                          return const SizedBox.shrink();
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.radio_button_checked),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                "${attribute.title}:  ${selectedValue == true ? "Yes" : selectedValue == false ? "No" : selectedValue}",
+                                style: GoogleFonts.aBeeZee(
+                                    fontWeight: FontWeight.bold, color: Colors.black87),
+                              )
+                            ],
+                          ),
+                        );
+                      },)
+                )
+                ),
+              ),
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Card(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(Icons.radio_button_checked),
-                    const SizedBox(width: 8,),
-                    Text("${attribute.title}:  ${selectedValue==true? "Yes": selectedValue==false? "No":selectedValue }",style: GoogleFonts.fahkwang(fontWeight: FontWeight.bold,color: Colors.black87),)
+                    Text("Edit Selections"),
+                    Icon(Icons.arrow_forward_ios)
                   ],
                 ),
               ),
-            );
-            //   ListTile(
-            //   title: Text(attribute.title),
-            //   subtitle: Text(
-            //     selectedValue.toString(),
-            //     style: TextStyle(color: Colors.grey[700]),
-            //   ),
-            // );
-          },
+            ),
+          )
+          ],
         ),
       ),
     );

@@ -59,8 +59,7 @@ final Dio _dio = dioClient();
           UIUtil.instance.onFailed("500 : Internal Server Error");
       }
       break;
-    case DioErrorType.cancel:
-      break;
+
     default:
       UIUtil.instance.onFailed(error.response.toString());
   }

@@ -5,11 +5,10 @@ import 'package:lottie/lottie.dart';
 // ignore: must_be_immutable
 class CustomDialog extends StatelessWidget {
   CustomDialog(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.message,
-      required this.image})
-      : super(key: key);
+      required this.image});
 
   String title;
   String message;

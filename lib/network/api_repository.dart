@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wempro_interview_task/network/api_urls.dart';

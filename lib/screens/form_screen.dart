@@ -47,10 +47,7 @@ class FormScreen extends StatelessWidget {
                               ),
                               onPressed: () {
                                 if (formProvider.validateForm()) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => SummaryScreen()),
-                                  );
+                                  Navigator.pushNamed(context, SummaryScreen.routeName);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(content: Text("Please fill in all required fields")),

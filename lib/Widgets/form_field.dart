@@ -7,7 +7,7 @@ import '../providers/form_provider.dart';
 class FormFieldWidget extends StatelessWidget {
   final Attribute attribute;
 
-  const FormFieldWidget({Key? key, required this.attribute}) : super(key: key);
+  const FormFieldWidget({super.key, required this.attribute});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class FormFieldWidget extends StatelessWidget {
 class RadioGroupWidget extends StatelessWidget {
   final Attribute attribute;
 
-  const RadioGroupWidget({Key? key, required this.attribute}) : super(key: key);
+  const RadioGroupWidget({super.key, required this.attribute});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,21 @@ class RadioGroupWidget extends StatelessWidget {
             Text(attribute.title,
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+            if (formProvider.formData[attribute.id] == null)const Row(
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                ),
+
+                  Padding(
+                      padding: EdgeInsets.only(left: 14.0),
+                      child: Text(
+                        "Required",
+                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      )),
+              ],
+            ),
             Column(
               children: attribute.options.map<Widget>((option) {
                 return RadioListTile(
@@ -63,7 +78,7 @@ class RadioGroupWidget extends StatelessWidget {
 class DropdownWidget extends StatelessWidget {
   final Attribute attribute;
 
-  const DropdownWidget({Key? key, required this.attribute}) : super(key: key);
+  const DropdownWidget({super.key, required this.attribute});
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +89,30 @@ class DropdownWidget extends StatelessWidget {
           children: [
             Text(attribute.title,
                 style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-            SizedBox(height: 5,),
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+            if (formProvider.formData[attribute.id] == null) const Row(
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                ),
+
+                  Padding(
+                      padding: EdgeInsets.only(left: 14.0),
+                      child: Text(
+                        "Required",
+                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      )),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   hintText: "0 ${attribute.title}",
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                  labelStyle: const TextStyle(fontWeight: FontWeight.bold)),
               items: attribute.options
                   .map<DropdownMenuItem<String>>((option) => DropdownMenuItem(
                         value: option,
@@ -98,6 +130,13 @@ class DropdownWidget extends StatelessWidget {
                 return null;
               },
             ),
+            // if (formProvider.formData[attribute.id] == null)
+            //   const Padding(
+            //       padding: EdgeInsets.only(left: 16.0),
+            //       child: Text(
+            //         "Please select a field",
+            //         style: TextStyle(color: Colors.red, fontSize: 14),
+            //       )),
           ],
         );
       },
@@ -108,7 +147,7 @@ class DropdownWidget extends StatelessWidget {
 class TextFieldWidget extends StatelessWidget {
   final Attribute attribute;
 
-  const TextFieldWidget({Key? key, required this.attribute}) : super(key: key);
+  const TextFieldWidget({super.key, required this.attribute});
 
   @override
   Widget build(BuildContext context) {
@@ -121,12 +160,28 @@ class TextFieldWidget extends StatelessWidget {
               attribute.title,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
+            if (formProvider.formData[attribute.id] == null) const Row(
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                ),
+
+                  Padding(
+                      padding: EdgeInsets.only(left: 14.0),
+                      child: Text(
+                        "Required",
+                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      )),
+              ],
+            ),
             const SizedBox(
               height: 5,
             ),
             TextFormField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Type ${attribute.title}"),
+                  border: const OutlineInputBorder(),
+                  hintText: "Type ${attribute.title}"),
               onChanged: (value) {
                 formProvider.updateField(attribute.id, value);
               },
@@ -137,6 +192,13 @@ class TextFieldWidget extends StatelessWidget {
                 return null;
               },
             ),
+            // if (formProvider.formData[attribute.id] == null)
+            //   const Padding(
+            //       padding: EdgeInsets.only(left: 16.0),
+            //       child: Text(
+            //         "Please enter this field",
+            //         style: TextStyle(color: Colors.red, fontSize: 14),
+            //       )),
           ],
         );
       },
@@ -147,7 +209,7 @@ class TextFieldWidget extends StatelessWidget {
 class CheckboxWidget extends StatelessWidget {
   final Attribute attribute;
 
-  const CheckboxWidget({Key? key, required this.attribute}) : super(key: key);
+  const CheckboxWidget({super.key, required this.attribute});
 
   @override
   Widget build(BuildContext context) {
@@ -159,41 +221,54 @@ class CheckboxWidget extends StatelessWidget {
             Text(attribute.title,
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+            if (formProvider.formData[attribute.id] == null) const Row(
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                ),
+
+                  Padding(
+                      padding: EdgeInsets.only(left: 14.0),
+                      child: Text(
+                        "Required",
+                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      )),
+              ],
+            ),
             Row(
               children: [
                 Checkbox(
                   value: formProvider.formData[attribute.id] == true,
                   onChanged: (value) {
-                    formProvider.updateField(attribute.id, value);
+                    print(formProvider.formData[attribute.id] == true);
+                    formProvider.updateField(
+                        attribute.id, value == true ? true : null);
                   },
                 ),
-                Text("Yes"),
+                const Text("Yes"),
               ],
             ),
-            // Row(
-            //   children: [
-            //     Checkbox(
-            //       value: formProvider.formData[attribute.id] == true,
-            //       onChanged: (value) {
-            //         formProvider.updateField(attribute.id, value);
-            //       },
-            //     ),
-            //     Text("No"),
-            //   ],
-            // ),
-
-            // Column(
-            //   children: attribute.options.map<Widget>((option) {
-            //     return CheckboxListTile(
-            //       title: Text(attribute.title),
-            //       value: formProvider.formData[attribute.id] == true,
-            //       onChanged: (value) {
-            //         formProvider.updateField(attribute.id, value);
-            //       },
-            //
-            //     );
-            //   }).toList(),
-            // ),
+            Row(
+              children: [
+                Checkbox(
+                  value: formProvider.formData[attribute.id] == false,
+                  onChanged: (value) {
+                    print(value);
+                    formProvider.updateField(
+                        attribute.id, value == true ? false : null);
+                  },
+                ),
+                const Text("No"),
+              ],
+            ),
+            // if (formProvider.formData[attribute.id] == null)
+            //   const Padding(
+            //       padding: EdgeInsets.only(left: 16.0),
+            //       child: Text(
+            //         "Please select Yes or No",
+            //         style: TextStyle(color: Colors.red, fontSize: 14),
+            //       )),
           ],
         );
       },
