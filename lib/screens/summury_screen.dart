@@ -23,6 +23,9 @@ class SummaryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: const Icon(Icons.arrow_back)),
         title: const Text("Selected Input Summary"),
       ),
       body: Padding(
@@ -36,51 +39,49 @@ class SummaryScreen extends StatelessWidget {
                 Text("${formProvider.formData.length} Items",style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
               ],
             ),
-            Expanded(
-              child: Card(
-                child: Column(
-                  children: List.generate(
-                      formProvider.formFieldModel!.jsonResponse.attributes.length,
-                      (index) {
-                        final attribute =
-                        formProvider.formFieldModel!.jsonResponse.attributes[index];
-                        final selectedValue = formProvider.formData[attribute.id];
+            Card(
+              child: Column(
+                children: List.generate(
+                    formProvider.formFieldModel!.jsonResponse.attributes.length,
+                    (index) {
+                      final attribute =
+                      formProvider.formFieldModel!.jsonResponse.attributes[index];
+                      final selectedValue = formProvider.formData[attribute.id];
 
-                        // Only show fields with selected values
-                        if (selectedValue == null) {
-                          return const SizedBox.shrink();
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.radio_button_checked),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "${attribute.title}:  ${selectedValue == true ? "Yes" : selectedValue == false ? "No" : selectedValue}",
-                                style: GoogleFonts.aBeeZee(
-                                    fontWeight: FontWeight.bold, color: Colors.black87),
-                              )
-                            ],
-                          ),
-                        );
-                      },)
-                )
-                ),
+                      // Only show fields with selected values
+                      if (selectedValue == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.radio_button_checked),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              "${attribute.title}:  ${selectedValue == true ? "Yes" : selectedValue == false ? "No" : selectedValue}",
+                              style: GoogleFonts.aBeeZee(
+                                  fontWeight: FontWeight.bold, color: Colors.black87),
+                            )
+                          ],
+                        ),
+                      );
+                    },)
+              )
               ),
           InkWell(
             onTap: (){
               Navigator.pop(context);
             },
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Card(
+            child: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Edit Selections"),
+                    Text("Edit Selections",style: TextStyle(fontWeight: FontWeight.bold),),
                     Icon(Icons.arrow_forward_ios)
                   ],
                 ),

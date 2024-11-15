@@ -25,8 +25,8 @@ class UIUtil {
     }
   }
 
-  void errorToast(
-      BuildContext context, String msg, String buttonText, Function()? call) {
+  void errorToast(BuildContext context, String msg, String buttonText,
+      Function()? call) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(msg),
@@ -47,7 +47,7 @@ class UIUtil {
         builder: (context) {
           return const Center(
               child:
-                  CircularProgressIndicator()); //Image.asset(AppImages.instance.splashAnim, height: 100, width: 100));
+              CircularProgressIndicator()); //Image.asset(AppImages.instance.splashAnim, height: 100, width: 100));
         },
         barrierLabel: '');
   }
@@ -59,25 +59,27 @@ class UIUtil {
   void onNoInternet(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => CustomDialog(
-          title: "No Internet!",
-          message: "Please Check Your Connectivity!",
-          image: AppImages.instance.noInternetAnim),
+      builder: (context) =>
+          CustomDialog(
+              title: "No Internet!",
+              message: "Please Check Your Connectivity!",
+              image: AppImages.instance.noInternetAnim),
     );
   }
 
-  void onFailed(String failedMsg) {
-    final context = navigatorKey.currentContext;
-    if(context != null){
-      showDialog(
-        context: context,
-        builder: (context) => Builder(builder: (context) {
-          return CustomDialog(
-              title: "Failed!",
-              message: failedMsg,
-              image: AppImages.instance.errorAnim);
-        }),
-      );
-    }
+void onFailed(String failedMsg) {
+  final context = navigatorKey.currentContext;
+  if(context != null){
+    showDialog(
+      context: context,
+      builder: (context) => Builder(builder: (context) {
+        return CustomDialog(
+            title: "Failed!",
+            message: failedMsg,
+            image: AppImages.instance.errorAnim);
+      }),
+    );
   }
 }
+}
+

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wempro_interview_task/providers/form_provider.dart';
 import 'package:wempro_interview_task/screens/form_screen.dart';
-import 'package:wempro_interview_task/screens/homepage.dart';
 
 import 'Utils/app_routes.dart';
 import 'network/api_client.dart';
@@ -13,7 +12,6 @@ import 'network/api_repository.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -33,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
